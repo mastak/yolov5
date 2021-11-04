@@ -17,11 +17,11 @@ import torch.nn as nn
 from PIL import Image
 from torch.cuda import amp
 
-from utils.datasets import exif_transpose, letterbox
-from utils.general import colorstr, increment_path, make_divisible, non_max_suppression, save_one_box, \
+from yolov5.utils.augmentations import letterbox
+from yolov5.utils.datasets import exif_transpose
+from yolov5.utils.general import colorstr, increment_path, make_divisible, non_max_suppression, save_one_box, \
     scale_coords, xyxy2xywh
-from utils.plots import Annotator, colors
-from utils.torch_utils import time_sync
+from yolov5.utils.torch_utils import time_sync
 
 LOGGER = logging.getLogger(__name__)
 
@@ -376,6 +376,8 @@ class Detections:
         self.s = shape  # inference BCHW shape
 
     def display(self, pprint=False, show=False, save=False, crop=False, render=False, save_dir=Path('')):
+        from yolov5.utils.plots import Annotator, colors
+
         crops = []
         for i, (im, pred) in enumerate(zip(self.imgs, self.pred)):
             s = f'image {i + 1}/{len(self.pred)}: {im.shape[0]}x{im.shape[1]} '  # string
