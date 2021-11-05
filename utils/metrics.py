@@ -7,7 +7,6 @@ import math
 import warnings
 from pathlib import Path
 
-import matplotlib.pyplot as plt
 import numpy as np
 import torch
 
@@ -163,8 +162,9 @@ class ConfusionMatrix:
         return self.matrix
 
     def plot(self, normalize=True, save_dir='', names=()):
+        import matplotlib.pyplot as plt
+        import seaborn as sn
         try:
-            import seaborn as sn
 
             array = self.matrix / ((self.matrix.sum(0).reshape(1, -1) + 1E-6) if normalize else 1)  # normalize columns
             array[array < 0.005] = np.nan  # don't annotate (would appear as 0.00)
@@ -295,6 +295,7 @@ def wh_iou(wh1, wh2):
 
 def plot_pr_curve(px, py, ap, save_dir='pr_curve.png', names=()):
     # Precision-recall curve
+    import matplotlib.pyplot as plt
     fig, ax = plt.subplots(1, 1, figsize=(9, 6), tight_layout=True)
     py = np.stack(py, axis=1)
 
@@ -316,6 +317,7 @@ def plot_pr_curve(px, py, ap, save_dir='pr_curve.png', names=()):
 
 def plot_mc_curve(px, py, save_dir='mc_curve.png', names=(), xlabel='Confidence', ylabel='Metric'):
     # Metric-confidence curve
+    import matplotlib.pyplot as plt
     fig, ax = plt.subplots(1, 1, figsize=(9, 6), tight_layout=True)
 
     if 0 < len(names) < 21:  # display per-class legend if < 21 classes
